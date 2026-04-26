@@ -1,11 +1,14 @@
-import AppRouter from './router'
+import AppRouter from "./router";
+import PageWrapper from "./components/layout/PageWrapper";
 
+const AUTH_ROUTES = ["/login", "/register"];
+const FULL_SCREEN = ["/quizzes", "/take"];
 function App() {
   return (
-    <div className="min-h-screen bg-dark-950">
+    <PageWrapper>
       <AppRouter />
-    </div>
-  )
+    </PageWrapper>
+  );
 }
 
-export default App
+export default App;
