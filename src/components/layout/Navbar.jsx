@@ -7,6 +7,8 @@ import { useAuth } from "../../hooks/useAuth";
 import Avatar from "../common/Avatar";
 import Badge from "../common/Badge";
 
+import Logo from "../../assets/logo.png";
+
 const NavLink = ({ to, children, onClick }) => {
   const location = useLocation();
   const isActive = location.pathname.startsWith(to);
@@ -56,9 +58,7 @@ const Navbar = () => {
 
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">D</span>
-              </div>
+              <img src={Logo} alt="Dispatch" className="w-8 h-8 rounded-lg" />
               <span className="text-white font-bold text-lg hidden sm:block">Dispatch</span>
             </Link>
 

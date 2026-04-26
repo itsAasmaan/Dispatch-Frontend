@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import logo from "../../assets/logo.png";
 import {
   X,
   Home,
@@ -83,9 +84,7 @@ const Sidebar = () => {
         {/* Header */}
         <div className="flex items-center justify-between px-4 h-16 border-b border-dark-800">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 bg-primary-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xs">D</span>
-            </div>
+            <img src={logo} alt="Dispatch" className="w-7 h-7 rounded-lg" />
             <span className="text-white font-bold">Dispatch</span>
           </Link>
           <button onClick={closeSidebar} className="p-1.5 rounded-lg text-dark-400 hover:text-white hover:bg-dark-800">

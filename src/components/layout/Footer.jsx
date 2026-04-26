@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logo from "../../assets/logo.png";
 
 const footerLinks = {
   Platform: [
@@ -25,9 +26,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="col-span-2 md:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">D</span>
-              </div>
+              <img src={logo} alt="Dispatch" className="w-8 h-8 rounded-lg" />
               <span className="text-white font-bold text-lg">Dispatch</span>
             </Link>
             <p className="text-dark-400 text-sm leading-relaxed max-w-xs">
