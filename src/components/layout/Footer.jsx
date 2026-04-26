@@ -23,7 +23,6 @@ const Footer = () => {
     <footer className="border-t border-dark-800 bg-dark-950 mt-20">
       <div className="page-container py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {/* Brand */}
           <div className="col-span-2 md:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <img src={logo} alt="Dispatch" className="w-8 h-8 rounded-lg" />
@@ -35,7 +34,6 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Links */}
           {Object.entries(footerLinks).map(([section, links]) => (
             <div key={section}>
               <h4 className="text-white font-semibold text-sm mb-4">{section}</h4>
@@ -52,10 +50,9 @@ const Footer = () => {
           ))}
         </div>
 
-        {/* Bottom bar */}
         <div className="border-t border-dark-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-dark-500 text-sm">© {new Date().getFullYear()} Dispatch. Built for learning.</p>
-          <p className="text-dark-600 text-xs">Laravel + React • Built with ❤️</p>
+          <p className="text-dark-600 text-xs">Built By Akash Singh</p>
         </div>
       </div>
     </footer>
