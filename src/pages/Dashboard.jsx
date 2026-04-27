@@ -1,99 +1,84 @@
-import { Navigate }      from 'react-router-dom'
-import { useAuthStore }  from '../store/authStore'
-import Avatar            from '../components/common/Avatar'
-import Badge             from '../components/common/Badge'
-import { formatDate }    from '../utils/formatters'
+import { Navigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import { Avatar, Badge, Card, StatCard, ProgressBar, Button, Tabs } from "../components/common";
+import { BookOpen, HelpCircle, Brain, Flame } from "lucide-react";
+import { useState } from "react";
 
 const Dashboard = () => {
-  const { user, isAuthenticated } = useAuthStore()
+  const { user, isAuthenticated } = useAuthStore();
+  const [activeTab, setActiveTab] = useState("overview");
 
-  if (!isAuthenticated) return <Navigate to="/login" replace />
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
 
   return (
     <div className="page-container py-10 space-y-8">
       <div className="flex items-center gap-4">
         <Avatar src={user?.avatar} name={user?.name} size="lg" />
         <div>
-          <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold text-white">
-              Welcome back, {user?.name} 👋
-            </h1>
+          <div className="flex items-center gap-3 flex-wrap">
+            <h1 className="text-2xl font-bold text-white">Welcome back, {user?.name} 👋</h1>
             <Badge variant="primary">{user?.role}</Badge>
           </div>
           <p className="text-dark-400 mt-1">@{user?.username}</p>
         </div>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {[
-          { label: 'Interviews Shared', value: '0',  color: 'text-blue-400' },
-          { label: 'Questions Solved',  value: '0',  color: 'text-green-400' },
-          { label: 'Quizzes Taken',     value: '0',  color: 'text-purple-400' },
-          { label: 'Current Streak',    value: '0🔥', color: 'text-orange-400' },
-        ].map((stat) => (
-          <div key={stat.label} className="card p-5 space-y-2">
-            <p className={`text-2xl font-bold ${stat.color}`}>
-              {stat.value}
+      {/* Tabs */}
+      <Tabs
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        tabs={[
+          { label: "Overview", value: "overview" },
+          { label: "Activity", value: "activity" },
+          { label: "Bookmarks", value: "bookmarks" },
+        ]}
+      />
+
+      {activeTab === "overview" && (
+        <>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <StatCard label="Interviews Shared" value="0" color="blue" icon={<BookOpen size={18} />} />
+            <StatCard label="Questions Solved" value="0" color="green" icon={<HelpCircle size={18} />} />
+            <StatCard label="Quizzes Taken" value="0" color="purple" icon={<Brain size={18} />} />
+            <StatCard label="Current Streak" value="0 🔥" color="yellow" icon={<Flame size={18} />} />
+          </div>
+
+          {user?.role === "candidate" && (
+            <Card>
+              <Card.Header>
+                <Card.Title>Preparation Progress</Card.Title>
+              </Card.Header>
+              <Card.Body>
+                <ProgressBar value={0} label="Overall Progress" showLabel color="primary" />
+                <ProgressBar value={0} label="DSA Topics" showLabel color="blue" />
+                <ProgressBar value={0} label="System Design" showLabel color="green" />
+              </Card.Body>
+            </Card>
+          )}
+        </>
+      )}
+
+      {activeTab === "activity" && (
+        <Card>
+          <Card.Body>
+            <p className="text-dark-400 text-sm text-center py-8">
+              No activity yet. Start by sharing an interview experience!
             </p>
-            <p className="text-dark-400 text-sm">{stat.label}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Role-specific content */}
-      {user?.role === 'candidate' && (
-        <div className="card p-6 space-y-4">
-          <h2 className="text-lg font-semibold text-white">
-            Quick Actions
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {[
-              { label: '📝 Share Experience', to: '/interviews/share' },
-              { label: '🧠 Take a Quiz',      to: '/quizzes' },
-              { label: '🗺️ View Roadmaps',    to: '/roadmaps' },
-              { label: '📋 My Plans',         to: '/preparation' },
-              { label: '🏢 Browse Companies', to: '/companies' },
-              { label: '❓ Practice Questions', to: '/questions' },
-            ].map((action) => (
-              <a
-                key={action.to}
-                href={action.to}
-                className="card p-4 text-sm text-dark-300 hover:text-white hover:border-primary-500/50 transition-all duration-200 text-center"
-              >
-                {action.label}
-              </a>
-            ))}
-          </div>
-        </div>
+          </Card.Body>
+        </Card>
       )}
 
-      {user?.role === 'admin' && (
-        <div className="card p-6 space-y-4">
-          <h2 className="text-lg font-semibold text-white">
-            Admin Quick Actions
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {[
-              { label: '📊 View Stats',        to: '/admin' },
-              { label: '👥 Manage Users',       to: '/admin/users' },
-              { label: '🚩 Flagged Comments',   to: '/admin/comments' },
-              { label: '✅ Pending Questions',  to: '/admin/questions' },
-            ].map((action) => (
-              <a
-                key={action.to}
-                href={action.to}
-                className="card p-4 text-sm text-dark-300 hover:text-white hover:border-primary-500/50 transition-all duration-200 text-center"
-              >
-                {action.label}
-              </a>
-            ))}
-          </div>
-        </div>
+      {activeTab === "bookmarks" && (
+        <Card>
+          <Card.Body>
+            <p className="text-dark-400 text-sm text-center py-8">
+              No bookmarks yet. Bookmark interviews and questions to find them here.
+            </p>
+          </Card.Body>
+        </Card>
       )}
-
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
