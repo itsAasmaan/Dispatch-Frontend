@@ -16,11 +16,11 @@ export const useCompanies = (params = {}) => {
   });
 };
 
-export const useCompany = (id) => {
+export const useCompany = (slugOrId) => {
   return useQuery({
-    queryKey: KEYS.detail(id),
-    queryFn: () => companyApi.getOne(id).then((r) => r.data.data),
-    enabled: !!id,
+    queryKey: KEYS.detail(slugOrId),
+    queryFn: () => companyApi.getOne(slugOrId).then((r) => r.data.data),
+    enabled: !!slugOrId,
   });
 };
 
@@ -28,9 +28,9 @@ export const useFollowCompany = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (companyId) => companyApi.follow(companyId),
-    onSuccess: (_, companyId) => {
-      queryClient.invalidateQueries(KEYS.detail(companyId));
+    mutationFn: (companyIdOrSlug) => companyApi.follow(companyIdOrSlug),
+    onSuccess: (_, companyIdOrSlug) => {
+      queryClient.invalidateQueries(KEYS.detail(companyIdOrSlug));
       queryClient.invalidateQueries(KEYS.all);
       toast.success("Company followed");
     },
@@ -41,9 +41,9 @@ export const useUnfollowCompany = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (companyId) => companyApi.unfollow(companyId),
-    onSuccess: (_, companyId) => {
-      queryClient.invalidateQueries(KEYS.detail(companyId));
+    mutationFn: (companyIdOrSlug) => companyApi.unfollow(companyIdOrSlug),
+    onSuccess: (_, companyIdOrSlug) => {
+      queryClient.invalidateQueries(KEYS.detail(companyIdOrSlug));
       queryClient.invalidateQueries(KEYS.all);
       toast.success("Company unfollowed");
     },
