@@ -30,7 +30,12 @@ const Companies = () => {
   });
 
   const companies = data?.data ?? [];
-  const pagination = data?.meta ?? null;
+  const pagination = data?.current_page !== undefined ? {
+    current_page: data.current_page,
+    last_page: data.last_page,
+    total: data.total,
+    per_page: data.per_page,
+  } : null;
 
   const handleFilterChange = (newFilters) => {
     setFilters({ ...newFilters, page: 1 });
